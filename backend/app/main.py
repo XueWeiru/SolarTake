@@ -1,20 +1,17 @@
 from fastapi import FastAPI
 
-app = FastAPI(title="太陽能裝設評估 API")
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
-
-from fastapi import FastAPI
 from sqlalchemy import text
 from app.db.base import Base
 from app.db.session import engine
 from app.models import user, assessment  # 匯入才會註冊資料表
 
-app = FastAPI(title="Solar Assessment")
+from app.api.router import api_router
+
+app = FastAPI(title="SolarTake")
 
 Base.metadata.create_all(bind=engine)  # MVP 階段先用這個自動建表
+
+app.include_router(api_router, prefix="/api")
 
 @app.get("/health")
 def health():
@@ -25,6 +22,10 @@ def health_db():
     with engine.connect() as conn:
         conn.execute(text("SELECT 1"))
     return {"db": "ok"}
+
+
+
+
 
 '''
 FastAPI：建立網頁 API 的主類別。
