@@ -1,3 +1,5 @@
+from functools import lru_cache # 加入 LLM service 的依賴
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
@@ -5,6 +7,8 @@ from app.core.security import decode_access_token
 from app.db.session import get_db
 from app.repositories import user_repository
 from app.models.user import User
+
+from app.services.llm_service import LLMService # 加入 LLM service 的依賴
 
 bearer_scheme = HTTPBearer()
 
@@ -17,3 +21,7 @@ def get_current_user(
     if not user:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "未登入或 token 已失效")
     return user
+
+@lru_cache
+def get_llm_service() -> LLMService:
+    return LLMService()

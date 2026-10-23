@@ -106,7 +106,7 @@ def estimate_financials(annual_kwh: float, peak_power_kwp: float,
     return {
         
         "system_cost": system_cost,
-        "annual_saving": annual_saving,
+        "annual_saving": annual_saving, 
         "payback_years": payback_years,
     }
 

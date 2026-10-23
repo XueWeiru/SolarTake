@@ -7,6 +7,10 @@ ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
 class Settings(BaseSettings):
     DATABASE_URL: str
     SECRET_KEY: str = "change-me"
+    # LLM 設定
+    ANTHROPIC_API_KEY: str | None = None
+    LLM_MODEL: str = "claude-sonnet-4-6"
+    LLM_MAX_TOKENS: int = 800
 
     model_config = SettingsConfigDict(env_file=ENV_FILE, extra="ignore")
 
@@ -32,3 +36,4 @@ extra="ignore"：.env 裡有 Settings 沒定義的變數時直接忽略，不報
 
 建立一個實例，此時會真的去讀 .env。其他檔案用 from app.core.config import settings 就能取用。
 '''
+
