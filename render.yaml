@@ -1,0 +1,32 @@
+# Render Blueprint for SolarTake (branch: xue)
+# 放在專案根目錄，與 Dockerfile.heroku 同一層
+# 前端 (Streamlit) + 後端 (FastAPI) 跑在同一個容器，資料庫用 Render Postgres
+ 
+services:
+  - type: web
+    name: solartake
+    runtime: docker
+    dockerfilePath: ./Dockerfile.heroku
+    dockerContext: .
+    branch: xue
+    plan: free
+    region: singapore
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: solartake-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ANTHROPIC_API_KEY
+        sync: false          # 部署時 Render 會要求你手動填入（可留空 = 示範模式）
+      - key: LLM_MODEL
+        value: claude-sonnet-4-6
+ 
+databases:
+  - name: solartake-db
+    databaseName: solartake
+    user: solartake
+    plan: free
+    region: singapore
