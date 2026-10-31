@@ -24,7 +24,8 @@ import streamlit as st
 st.set_page_config(page_title="太陽能裝設評估", page_icon="☀️", layout="centered")
 
 # 後端位址；你的 router 掛在 /api 底下，所以完整路徑是 /api/auth/login、/api/llm/report
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+# BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
 API = f"{BACKEND_URL}/api"
 
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
